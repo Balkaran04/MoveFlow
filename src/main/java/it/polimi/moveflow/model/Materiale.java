@@ -1,8 +1,10 @@
 package it.polimi.moveflow.model;
 
-import org.attoparser.trace.MarkupTraceEvent;
-
+import jakarta.persistence.*;
+@Entity
 public class Materiale {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String codice;
     private String descrizione;
@@ -10,6 +12,7 @@ public class Materiale {
     private double altezza;
     private double larghezza;
     private double profondita;
+    @Enumerated(EnumType.STRING)
     private ClasseRotazione classeRotazione;
 
     public Materiale(){

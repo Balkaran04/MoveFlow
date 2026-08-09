@@ -1,7 +1,11 @@
 package it.polimi.moveflow.model;
 
-public class Ubicazione {
+import jakarta.persistence.*;
 
+@Entity
+public class Ubicazione {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String codice;
     private int campata;
@@ -12,6 +16,7 @@ public class Ubicazione {
     private double altezzaMassima;
     private double larghezzaMassima;
     private double profonditaMassima;
+    @Enumerated(EnumType.STRING)
     private StatoUbicazione stato;
 
     public Ubicazione(){
