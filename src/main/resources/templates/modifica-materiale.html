@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Materiale</title>
+</head>
+<body>
+<form
+  method="POST"
+  th:object="${materiale}"
+  th:action="@{/materiali/modifica/{id}(id=${materiale.id})}">
+
+  <label>Altezza: </label>
+  <input type="text" th:field="*{altezza}">
+  <br>
+
+  <label>Classe Rotazione: </label>
+  <input type="text" th:field="*{classeRotazione}">
+  <br>
+
+  <select th:field="*{classeRotazione}">
+    <option value="ALTA">Alta</option>
+    <option value="MEDIA">Media</option>
+    <option value="BASSA">Bassa</option>
+  </select>
+
+  <label>Codice: </label>
+  <input type="text" th:field="*{codice}">
+  <br>
+
+  <label>Descrizione: </label>
+  <input type="text" th:field="*{descrizione}">
+  <br>
+
+  <label>Larghezza: </label>
+  <input type="number" th:field="*{larghezza}">
+  <br>
+
+  <label>Peso: </label>
+  <input type="number" th:field="*{peso}">
+  <br>
+
+  <label>Profondità: </label>
+  <input type="number" th:field="*{profondita}">
+  <br>
+
+  <button type="submit">Modifica Materiale</button>
+
+  </form>
+</body>
+</html>

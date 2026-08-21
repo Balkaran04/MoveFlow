@@ -19,6 +19,7 @@
           <td>Larghezza</td>
           <td>Profondità</td>
           <td>Classe Rotazione</td>
+          <td>Azioni</td>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,14 @@
         <td th:text="${m.larghezza}"></td>
         <td th:text="${m.profondita}"></td>
         <td th:text="${m.classeRotazione}"></td>
+        <td>
+            <form method="POST" th:action="@{/materiali/elimina/{id}(id=${m.id})}">
+                <button type="submit">Elimina</button>
+            </form>
+        </td>
+        <td>
+            <a th:href="@{/materiali/modifica/{id}(id=${m.id})}">Modifica</a>
+        </td>
     </tbody>
 
 

@@ -21,6 +21,7 @@
     <td>Posizione</td>
     <td>Profondità Massima</td>
     <td>Stato</td>
+    <td>Azioni</td>
   </tr>
   </thead>
   <tbody>
@@ -35,6 +36,19 @@
     <td th:text="${m.posizione}"></td>
     <td th:text="${m.profonditaMassima}"></td>
     <td th:text="${m.stato}"></td>
+    <td>
+      <form method="POST" th:action="@{/ubicazioni/elimina/{id}(id=${m.id})}">
+        <button type="submit">Elimina</button>
+      </form>
+    </td>
+    <td>
+      <a th:href="@{/ubicazioni/modifica/{id}(id=${m.id})}">Modifica</a>
+    </td>
+    <td>
+      <form method="POST" th:action="@{/ubicazioni/blocca/{id}(id=${m.id})}">
+        <button type="submit">Blocca</button>
+      </form>
+    </td>
   </tbody>
 
 

@@ -7,9 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UbicazioneController {
@@ -38,6 +40,40 @@ public class UbicazioneController {
     public String inserisciUbicazione(@ModelAttribute Ubicazione m){
         ubicazioneService.salvaUbicazione(m);
 
+        return "redirect:/ubicazioni";
+    }
+
+    @PostMapping("/ubicazioni/elimina/{id}")
+    public String eliminaUbicazione(@PathVariable Long id){
+        ubicazioneService.eliminaPerId(id);
+        return "redirect:/ubicazioni";
+    }
+
+    @GetMapping("/ubicazioni/modifica/{id}")
+    public String modificaUbicazione(Model model, @PathVariable Long id){
+        Optional<Ubicazione> m1;
+        m1 = ubicazioneService.trovaPerId(id);
+        if(m1.isPresent()){
+            model.addAttribute("ubicazione",m1.get());
+            return "modifica-ubicazione";
+        }
+        else
+        {
+            return "redirect:/ubicazioni";
+        }
+
+    }
+
+    @PostMapping("/ubicazioni/modifica/{id}")
+    public String  modificaUbicazione(@ModelAttribute Ubicazione ubicazione, @PathVariable Long id){
+        ubicazioneService.modificaUbicazione(id, ubicazione);
+
+        return "redirect:/ubicazioni";
+    }
+
+    @PostMapping("/ubicazioni/blocca/{id}")
+    public String bloccaUbicazione(@PathVariable Long id){
+        ubicazioneService.bloccaUbicazione(id);
         return "redirect:/ubicazioni";
     }
 
