@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ubicazioni</title>
+</head>
+<body>
+
+<p th:each="m : ${ubicazioni}"></p>
+
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Altezza Massima</td>
+    <td>Campata</td>
+    <td>Codice</td>
+    <td>Larghezza Massima</td>
+    <td>Livello</td>
+    <td>Peso Massimo</td>
+    <td>Posizione</td>
+    <td>Profondità Massima</td>
+    <td>Stato</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="m : ${ubicazioni}">
+    <td th:text="${m.id}"></td>
+    <td th:text="${m.altezzaMassima}"></td>
+    <td th:text="${m.campata}"></td>
+    <td th:text="${m.codice}"></td>
+    <td th:text="${m.larghezzaMassima}"></td>
+    <td th:text="${m.livello}"></td>
+    <td th:text="${m.pesoMassimo}"></td>
+    <td th:text="${m.posizione}"></td>
+    <td th:text="${m.profonditaMassima}"></td>
+    <td th:text="${m.stato}"></td>
+  </tbody>
+
+
+</table>
+
+</body>
+</html>

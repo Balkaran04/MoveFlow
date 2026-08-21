@@ -6,6 +6,8 @@ import it.polimi.moveflow.service.MaterialeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,4 +26,20 @@ public class MaterialeController {
 
         return "materiali";
     }
+    @GetMapping("/materiali/inserimento")
+    public String inserimentoMateriale(Model model){
+        Materiale m = new Materiale();
+        model.addAttribute("materiale",m);
+        return "materiale-form-ins";
+
+    }
+
+    @PostMapping("/materiali/inserimento")
+    public String inserisciMateriale(@ModelAttribute Materiale m){
+        materialeService.salvaMateriale(m);
+
+        return "redirect:/materiali";
+    }
+
+
 }

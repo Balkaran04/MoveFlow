@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inserimento Materiale</title>
+</head>
+<body>
+<h1>Inserimento Materiale</h1>
+
+<form method="POST" th:object="${materiale}" th:action="@{/materiali/inserimento}">
+  <h2>Inserimento Materiale</h2>
+
+  <label>Codice: </label>
+  <input th:field="*{codice}">
+  <br>
+
+  <label>Descrizione: </label>
+  <input th:field="*{descrizione}">
+  <br>
+
+  <label>Peso: </label>
+  <input th:field="*{peso}">
+  <br>
+
+  <label>Altezza: </label>
+  <input th:field="*{altezza}">
+  <br>
+
+  <label>Larghezza: </label>
+  <input th:field="*{larghezza}">
+  <br>
+
+  <label>Profondita: </label>
+  <input th:field="*{profondita}">
+  <br>
+
+  <label>Classe Rotazione:</label>
+  <select  th:field="*{classeRotazione}" >
+    <option value="ALTA">Alta</option>
+    <option value="MEDIA">Media</option>
+    <option value="BASSA">Bassa</option>
+  </select>
+
+  <br>
+  <button type="submit">Salva materiale</button>
+
+</form>
+</body>
+</html>
