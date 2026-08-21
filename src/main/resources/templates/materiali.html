@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Materiale</title>
+</head>
+<body>
+
+<p th:each="m : ${materiali}"></p>
+
+<table>
+    <thead>
+      <tr>
+          <td>ID</td>
+          <td>Codice</td>
+          <td>Descrizione</td>
+          <td>Peso</td>
+          <td>Altezza</td>
+          <td>Larghezza</td>
+          <td>Profondità</td>
+          <td>Classe Rotazione</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="m : ${materiali}">
+        <td th:text="${m.id}"></td>
+        <td th:text="${m.codice}"></td>
+        <td th:text="${m.descrizione}"></td>
+        <td th:text="${m.peso}"></td>
+        <td th:text="${m.altezza}"></td>
+        <td th:text="${m.larghezza}"></td>
+        <td th:text="${m.profondita}"></td>
+        <td th:text="${m.classeRotazione}"></td>
+    </tbody>
+
+
+</table>
+
+</body>
+</html>
