@@ -15,8 +15,11 @@ public class Materiale {
     @Enumerated(EnumType.STRING)
     private ClasseRotazione classeRotazione;
 
-    public Materiale(){
+    @OneToOne
+    @JoinColumn(name = "ubicazione_id")
+    private Ubicazione ubicazione;
 
+    public Materiale(){
     }
     public Materiale(Long id, String codice, String descrizione, double peso, double altezza, double larghezza, double profondita, ClasseRotazione classeRotazione) {
         this.id = id;
@@ -62,6 +65,9 @@ public class Materiale {
         this.classeRotazione = classeRotazione;
     }
 
+    public void setUbicazione(Ubicazione ubicazione){
+        this.ubicazione = ubicazione;
+    }
     public Long getId() {
         return id;
     }
@@ -93,5 +99,6 @@ public class Materiale {
     public String getCodice() {
         return codice;
     }
+    public Ubicazione getUbicazione() { return  ubicazione;}
 
 }

@@ -3,9 +3,11 @@ package it.polimi.moveflow.service;
 import it.polimi.moveflow.model.StatoUbicazione;
 import it.polimi.moveflow.model.Ubicazione;
 import it.polimi.moveflow.repository.UbicazioneRepository;
+import jakarta.validation.OverridesAttribute;
 import org.springframework.stereotype.Service;
 
 import javax.swing.plaf.metal.MetalBorders;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +67,10 @@ public class UbicazioneService {
 
     }
 
-
+    public List<Ubicazione> trovaPerStato(StatoUbicazione stato)
+    {
+      return ubicazioneRepository.findByStato(stato);
+    }
 
 
 }

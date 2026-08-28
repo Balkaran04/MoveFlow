@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assegna Materiale a Ubicazione</title>
+</head>
+<body>
+<h2>Assegnazione Manuale</h2>
+<form method="POST"  th:action="@{/magazzino/assegnazione}">
+
+<select name="idMateriale" id="idMaterialeManuale">
+  <option value="">Seleziona un elemento</option>
+  <option th:each="m : ${materiali}"
+          th:value="${m.id}"
+          th:text="${m.codice} + ' - ' + ${m.descrizione}">
+
+  </option>
+</select>
+
+
+<select name="idUbicazione" id="idUbicazione">
+  <option value="">Seleziona un ubicazione</option>
+  <option th:each="u : ${ubicazioni}"
+          th:value="${u.id}"
+          th:text="${u.codice} + ' - ' + ${u.campata}">
+
+  </option>
+</select>
+<button type="submit">Salva materiale Manualmente</button>
+</form>
+
+<h2>Assegnazione Automatica</h2>
+<form method="POST"  th:action="@{/magazzino/assegnazioneauto}">
+
+    <select name="idMateriale" id="idMaterialeAuto">
+        <option value="">Seleziona un elemento</option>
+        <option th:each="m : ${materiali}"
+                th:value="${m.id}"
+                th:text="${m.codice} + ' - ' + ${m.descrizione}">
+
+        </option>
+    </select>
+
+
+    <button type="submit">Salva materiale Automaticamente</button>
+</form>
+</body>
+</html>

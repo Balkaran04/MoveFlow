@@ -115,4 +115,5 @@ public class Ubicazione {
         return stato;
     }
 
+
 }
