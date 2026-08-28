@@ -6,8 +6,11 @@ import it.polimi.moveflow.model.StatoUbicazione;
 import it.polimi.moveflow.model.Ubicazione;
 import it.polimi.moveflow.repository.MaterialeRepository;
 import it.polimi.moveflow.repository.UbicazioneRepository;
+import it.polimi.moveflow.strategy.StrategiaAltaRotazione;
+import it.polimi.moveflow.strategy.StrategiaBassaRotazione;
+import it.polimi.moveflow.strategy.StrategiaMediaRotazione;
+import it.polimi.moveflow.strategy.StrategiaRotazione;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.Max;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -19,10 +22,10 @@ public class GestioneMagazzinoService {
 
     private final UbicazioneRepository ubicazioneRepository;
     private final MaterialeRepository materialeRepository;
+
     public GestioneMagazzinoService(MaterialeRepository materialeRepository, UbicazioneRepository ubicazioneRepository) {
         this.materialeRepository = materialeRepository;
         this.ubicazioneRepository = ubicazioneRepository;
-
     }
     @Transactional
     public void assegnaMateriale(Long materialeId, Long ubicazioneId)
@@ -116,6 +119,22 @@ public class GestioneMagazzinoService {
         // ragionamento per scelta migliore del ubicazione
         Iterator<Ubicazione> iterator1;
         iterator1 = listaUbicazione.iterator();
+        StrategiaRotazione strategia = null;
+
+        ClasseRotazione cl;
+        cl = m1.getClasseRotazione();
+        switch (cl){
+            case ALTA:
+                strategia = new StrategiaAltaRotazione();
+                break;
+            case MEDIA:
+                strategia = new StrategiaMediaRotazione();
+                break;
+            case BASSA:
+                strategia = new StrategiaBassaRotazione();
+                break;
+        }
+
         while(iterator1.hasNext()){
             Ubicazione ubicazione1 = iterator1.next();
             volumeUbicazione = ubicazione1.getAltezzaMassima() * ubicazione1.getLarghezzaMassima() * ubicazione1.getProfonditaMassima();
@@ -128,33 +147,10 @@ public class GestioneMagazzinoService {
                 ubicazioneMigliore = ubicazione1;
                 
             } else if (Double.compare(spreco,sprecoMinimo) == 0 ){
-                if(m1.getClasseRotazione() == ClasseRotazione.ALTA ){
-                    if(ubicazione1.getCampata() < ubicazioneMigliore.getCampata()) {
-                        ubicazioneMigliore = ubicazione1;
 
-                    } else if (ubicazione1.getCampata() == ubicazioneMigliore.getCampata() &&
-                               ubicazione1.getLivello() < ubicazioneMigliore.getLivello()) {
-                            ubicazioneMigliore = ubicazione1;
-                    } else if (ubicazione1.getCampata() == ubicazioneMigliore.getCampata() &&
-                               ubicazione1.getLivello() == ubicazioneMigliore.getLivello() &&
-                               ubicazione1.getPosizione() < ubicazioneMigliore.getPosizione())
-                    {  ubicazioneMigliore = ubicazione1;
-                    }
-
-                } else if (m1.getClasseRotazione() == ClasseRotazione.BASSA) {
-                    if(ubicazione1.getCampata() > ubicazioneMigliore.getCampata()) {
-                        ubicazioneMigliore = ubicazione1;
-
-                    } else if (ubicazione1.getCampata() == ubicazioneMigliore.getCampata() &&
-                            ubicazione1.getLivello() > ubicazioneMigliore.getLivello()) {
-                        ubicazioneMigliore = ubicazione1;
-                    } else if (ubicazione1.getCampata() == ubicazioneMigliore.getCampata() &&
-                            ubicazione1.getLivello() == ubicazioneMigliore.getLivello() &&
-                            ubicazione1.getPosizione() > ubicazioneMigliore.getPosizione())
-                    {  ubicazioneMigliore = ubicazione1;
-                    }
+                if(strategia.preferisci(ubicazione1,ubicazioneMigliore) == true){
+                    ubicazioneMigliore = ubicazione1;
                 }
-
             }
 
 
@@ -167,8 +163,49 @@ public class GestioneMagazzinoService {
         ubicazioneRepository.save(ubicazioneMigliore);
 
 
+    }
 
+    @Transactional
+    public void spostaMateriale (Long materialeId, Long nuovaUbic){
 
+        Optional<Materiale> m = materialeRepository.findById(materialeId);
 
+        if(m.isEmpty()){
+            throw new IllegalArgumentException("Non esiste il materiale");
+        }
+        Materiale m1 = m.get();
+
+        if(m1.getUbicazione() == null){
+            throw new IllegalArgumentException("Il materiale non è ubicato! Non posso spostarlo");
+        }
+
+        Optional<Ubicazione> u = ubicazioneRepository.findById(nuovaUbic);
+
+        if(u.isEmpty()){
+            throw new IllegalArgumentException("Non esiste Ubicazione!");
+        }
+
+        Ubicazione u1 = u.get();
+
+        if(u1.getStato() != StatoUbicazione.LIBERA){
+            throw new IllegalArgumentException("Ubicazione di destinazione non è libera!");
+        }
+
+        if(m1.getPeso() > u1.getPesoMassimo() || m1.getLarghezza() > u1.getLarghezzaMassima() ||
+           m1.getProfondita() > u1.getProfonditaMassima() || m1.getAltezza() > u1.getAltezzaMassima()
+        )
+        {
+            throw new IllegalArgumentException("Ubicazione non compatibile per il materiale!");
+        }
+
+        Ubicazione vecchiaU = m1.getUbicazione();
+
+        vecchiaU.setStato(StatoUbicazione.LIBERA);
+        m1.setUbicazione(u1);
+        u1.setStato(StatoUbicazione.OCCUPATA);
+
+        materialeRepository.save(m1);
+        ubicazioneRepository.save(vecchiaU);
+        ubicazioneRepository.save(u1);
     }
 }

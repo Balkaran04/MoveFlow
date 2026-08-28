@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spostamento Materiale</title>
+</head>
+<body>
+<h2>Spostamento Materiale</h2>
+<form method="POST"  th:action="@{/magazzino/spostamento}">
+
+  <select name="idMateriale" id="idMaterialeManuale">
+    <option value="">Seleziona un elemento</option>
+    <option th:each="m : ${materiali}"
+            th:value="${m.id}"
+            th:text="${m.codice} + ' - ' + ${m.descrizione}">
+
+    </option>
+  </select>
+
+
+  <select name="idUbicazione" id="idUbazione">
+    <option value="">Seleziona un ubicazione</option>
+    <option th:each="u : ${ubicazioni}"
+            th:value="${u.id}"
+            th:text="${u.codice} + ' - Campata  ' + ${u.campata}">
+
+    </option>
+  </select>
+  <button type="submit">Sposta Materiale</button>
+</form>
+
+
+</body>
+</html>

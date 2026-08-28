@@ -60,6 +60,25 @@ public class GestioneMagazzinoController{
         return "redirect:/materiali";
     }
 
+    @GetMapping("/magazzino/spostamento")
+    public String spostaMateriale(Model model )
+    {
+        List<Materiale> m1 =  materialeService.trovaTutti();
+        List<Ubicazione> u1 = ubicazioneService.trovaTutte();
+
+        model.addAttribute("materiali",m1);
+        model.addAttribute("ubicazioni",u1);
+
+        return "magazzino-spostamento";
+    }
+
+    @PostMapping("/magazzino/spostamento")
+    public String spostaMateriale(@RequestParam Long idMateriale, @RequestParam Long idUbicazione){
+        gestioneMagazzinoService.spostaMateriale(idMateriale,idUbicazione);
+
+        return "redirect:/materiali";
+    }
+
 }
 
 
