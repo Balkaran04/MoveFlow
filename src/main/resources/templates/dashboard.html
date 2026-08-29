@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+<h1>Dashboard Magazzino</h1>
+
+<p>Ubicazioni totali: <span th:text="${totali}"></span></p>
+
+<p>Ubicazioni libere: <span th:text="${libere}"></span></p>
+
+<p>Ubicazioni occupate: <span th:text="${occupate}"></span></p>
+
+<p>Ubicazioni bloccate: <span th:text="${bloccate}"></span></p>
+
+<p>
+    Percentuale occupazione:
+    <span th:text="${percentuale}"></span> %
+</p>
+
+<br>
+
+<a href="/">Torna alla Home</a>
+
+</body>
+</html>

@@ -10,5 +10,7 @@ import java.util.List;
 public interface UbicazioneRepository extends JpaRepository<Ubicazione,Long> {
 
     List<Ubicazione> findByStato(StatoUbicazione stato);
+
+    long countByStato(StatoUbicazione stato);
 }
  
