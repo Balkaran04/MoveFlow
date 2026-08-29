@@ -1,10 +1,8 @@
 package it.polimi.moveflow.service;
 
-import it.polimi.moveflow.model.ClasseRotazione;
-import it.polimi.moveflow.model.Materiale;
-import it.polimi.moveflow.model.StatoUbicazione;
-import it.polimi.moveflow.model.Ubicazione;
+import it.polimi.moveflow.model.*;
 import it.polimi.moveflow.repository.MaterialeRepository;
+import it.polimi.moveflow.repository.MovimentoRepository;
 import it.polimi.moveflow.repository.UbicazioneRepository;
 import it.polimi.moveflow.strategy.StrategiaAltaRotazione;
 import it.polimi.moveflow.strategy.StrategiaBassaRotazione;
@@ -13,6 +11,7 @@ import it.polimi.moveflow.strategy.StrategiaRotazione;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +21,12 @@ public class GestioneMagazzinoService {
 
     private final UbicazioneRepository ubicazioneRepository;
     private final MaterialeRepository materialeRepository;
+    private final MovimentoRepository movimentoRepository;
 
-    public GestioneMagazzinoService(MaterialeRepository materialeRepository, UbicazioneRepository ubicazioneRepository) {
+    public GestioneMagazzinoService(MaterialeRepository materialeRepository, UbicazioneRepository ubicazioneRepository, MovimentoRepository movimentoRepository) {
         this.materialeRepository = materialeRepository;
         this.ubicazioneRepository = ubicazioneRepository;
+        this.movimentoRepository = movimentoRepository;
     }
     @Transactional
     public void assegnaMateriale(Long materialeId, Long ubicazioneId)
@@ -70,9 +71,10 @@ public class GestioneMagazzinoService {
         // se supero tutti i controlli assegno il materiale effettivamente
         m1.setUbicazione(u1);
         u1.setStato(StatoUbicazione.OCCUPATA);
-
+        registraMovimento(m1,TipoMovimento.CARICO,null, u1.getCodice(),null);
         materialeRepository.save(m1);
         ubicazioneRepository.save(u1);
+
     }
     @Transactional
     public void assegnaAutomaticamente(Long materialeiD){
@@ -158,6 +160,7 @@ public class GestioneMagazzinoService {
 
         m1.setUbicazione(ubicazioneMigliore);
         ubicazioneMigliore.setStato(StatoUbicazione.OCCUPATA);
+        registraMovimento(m1,TipoMovimento.CARICO,null, ubicazioneMigliore.getCodice(),null);
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(ubicazioneMigliore);
@@ -203,6 +206,7 @@ public class GestioneMagazzinoService {
         vecchiaU.setStato(StatoUbicazione.LIBERA);
         m1.setUbicazione(u1);
         u1.setStato(StatoUbicazione.OCCUPATA);
+        registraMovimento(m1,TipoMovimento.SPOSTAMENTO,vecchiaU.getCodice(), u1.getCodice(),null);
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(vecchiaU);
@@ -227,8 +231,14 @@ public class GestioneMagazzinoService {
 
         m1.setUbicazione(null);
         u.setStato(StatoUbicazione.LIBERA);
+        registraMovimento(m1,TipoMovimento.SCARICO,u.getCodice(), null,null);
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(u);
+    }
+
+    public void registraMovimento(Materiale materiale,TipoMovimento tipoMovimento, String ubicazioneOrig, String ubicazioneDest,Utente utente){
+        Movimento m  = new Movimento(materiale,tipoMovimento,ubicazioneOrig,ubicazioneDest, LocalDateTime.now(), utente);
+        movimentoRepository.save(m);
     }
 }

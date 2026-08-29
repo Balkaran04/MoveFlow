@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Movimenti</title>
+</head>
+<body>
+
+<p th:each="m : ${movimenti}"></p>
+
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Data Ora</td>
+    <td>Tipo Movimento</td>
+    <td>Ubic. Destinazione</td>
+    <td>Ubic. Origin</td>
+    <td>ID Materiale</td>
+    <td>ID Utente</td>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="m : ${movimenti}">
+    <td th:text="${m.id}"></td>
+    <td th:text="${m.dataOra}"></td>
+    <td th:text="${m.tipoMovimento}"></td>
+    <td th:text="${m.ubicazioneDestinazione}"></td>
+    <td th:text="${m.ubicazioneOrigine}"></td>
+    <td th:text="${m.materiale.getCodice()}"></td>
+    <td th:text="${m.utente}"></td>
+  </tbody>
+  
+</table>
+
+</body>
+</html>
