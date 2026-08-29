@@ -38,8 +38,18 @@
             </form>
         </td>
         <td>
+              <form method="POST" th:action="@{/magazzino/libera/{id}(id=${m.id})}">
+                  <button type="submit">Libera Materiale</button>
+              </form>
+        </td>
+
+        <td>
             <a th:href="@{/materiali/modifica/{id}(id=${m.id})}">Modifica</a>
         </td>
+        <td>
+              <a th:href="@{/etichette/{id}(id=${m.id})}">Etichetta</a>
+        </td>
+
     </tbody>
 
 

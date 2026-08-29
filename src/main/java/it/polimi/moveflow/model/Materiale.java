@@ -12,6 +12,7 @@ public class Materiale {
     private double altezza;
     private double larghezza;
     private double profondita;
+    private int quantita;
     @Enumerated(EnumType.STRING)
     private ClasseRotazione classeRotazione;
 
@@ -61,6 +62,8 @@ public class Materiale {
         this.profondita = profondita;
     }
 
+    public void setQuantita(int quantita){this.quantita = quantita;}
+
     public void setClasseRotazione(ClasseRotazione classeRotazione) {
         this.classeRotazione = classeRotazione;
     }
@@ -91,6 +94,8 @@ public class Materiale {
     public double getProfondita() {
         return profondita;
     }
+
+    public int getQuantita() {return  quantita;}
 
     public ClasseRotazione getClasseRotazione() {
         return classeRotazione;

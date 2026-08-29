@@ -208,4 +208,27 @@ public class GestioneMagazzinoService {
         ubicazioneRepository.save(vecchiaU);
         ubicazioneRepository.save(u1);
     }
+
+    @Transactional
+    public void liberaMateriale(Long materialeId){
+        Optional<Materiale> m = materialeRepository.findById(materialeId);
+
+        if(m.isEmpty()){
+            throw new IllegalArgumentException("Il materiale non esiste");
+
+        }
+        Materiale m1 = m.get();
+
+        Ubicazione u = m1.getUbicazione();
+        if(u == null){
+            throw new IllegalArgumentException("Il materiale non è ubicato!");
+
+        }
+
+        m1.setUbicazione(null);
+        u.setStato(StatoUbicazione.LIBERA);
+
+        materialeRepository.save(m1);
+        ubicazioneRepository.save(u);
+    }
 }

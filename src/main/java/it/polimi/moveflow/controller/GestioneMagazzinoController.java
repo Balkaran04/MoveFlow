@@ -79,6 +79,12 @@ public class GestioneMagazzinoController{
         return "redirect:/materiali";
     }
 
+    @PostMapping("/magazzino/libera/{id}")
+    public String liberaMateriale(@PathVariable Long id){
+        gestioneMagazzinoService.liberaMateriale(id);
+
+        return "redirect:/materiali";
+    }
 }
 
 
