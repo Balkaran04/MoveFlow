@@ -1,15 +1,18 @@
 package it.polimi.moveflow.controller;
 
 import it.polimi.moveflow.service.DashboardService;
+import org.springframework.boot.jdbc.autoconfigure.ApplicationDataSourceScriptDatabaseInitializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashboardController {
     private final DashboardService dashboardService;
+    private final ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer;
 
-    public DashboardController(DashboardService dashboardService){
+    public DashboardController(DashboardService dashboardService, ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer){
         this.dashboardService = dashboardService;
+        this.dataSourceScriptDatabaseInitializer = dataSourceScriptDatabaseInitializer;
     }
 
     @GetMapping("/dashboard")
@@ -19,7 +22,7 @@ public class DashboardController {
         model.addAttribute("occupate",dashboardService.getUbicazioniOccupate());
         model.addAttribute("bloccate",dashboardService.getUbicazioniBloccate());
         model.addAttribute("percentuale",dashboardService.getPercentualeOccupato());
-
+        model.addAttribute("quantita",dashboardService.getQuantita());
         return "dashboard";
     }
 }

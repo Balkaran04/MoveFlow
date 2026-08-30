@@ -1,6 +1,7 @@
 package it.polimi.moveflow.service;
 
 import it.polimi.moveflow.model.StatoUbicazione;
+import it.polimi.moveflow.repository.MaterialeRepository;
 import it.polimi.moveflow.repository.UbicazioneRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Service;
 public class DashboardService {
 
     private final UbicazioneRepository ubicazioneRepository ;
+    private final MaterialeRepository materialeRepository;
 
-    public DashboardService(UbicazioneRepository ubicazioneRepository){
+    public DashboardService(UbicazioneRepository ubicazioneRepository, MaterialeRepository materialeRepository){
         this.ubicazioneRepository = ubicazioneRepository;
+        this.materialeRepository = materialeRepository;
     }
 
     public long getUbicazioniLibere(){
@@ -38,6 +41,10 @@ public class DashboardService {
       }
       return ((double) ubicOccupate / disponibili)*100;
 
+    }
+    
+    public long getQuantita(){
+        return materialeRepository.sommaQuantita();
     }
 
 }
