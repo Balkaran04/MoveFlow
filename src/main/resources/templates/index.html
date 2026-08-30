@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>MoveFlow</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 
-<h1>MoveFlow</h1>
+<div class="container">
 
-<p>Mini-WMS per la gestione del magazzino.</p>
+    <h1>MoveFlow</h1>
+    <p>Mini-WMS per la gestione del magazzino.</p>
+
+    <div class="menu">
+
+        <h3>Gestione</h3>
+
+        <a href="/materiali">Materiali</a>
+        <a href="/ubicazioni">Ubicazioni</a>
+        <a href="/utenti">Utenti</a>
+
+        <h3>Operazioni</h3>
+
+        <a href="/magazzino/assegnazione">Assegna materiale</a>
+        <a href="/magazzino/spostamento">Sposta materiale</a>
+
+        <h3>Controllo</h3>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/movimenti">Storico movimenti</a>
+
+        <form class="logout" th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

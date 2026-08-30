@@ -10,17 +10,16 @@ public class Utente {
     private String username;
     private String password;
 
-    @Enumerated
-    TipoMovimento tipoMovimento;
+    @Enumerated(EnumType.STRING)
+    private Ruolo ruolo;
     public Utente(){
 
     }
 
-    public Utente(Long id, String username, String password, TipoMovimento tipoMovimento) {
-        this.id = id;
+    public Utente(String username, String password, Ruolo ruolo) {
         this.username = username;
         this.password = password;
-        this.tipoMovimento = tipoMovimento;
+        this.ruolo = ruolo;
     }
 
     public void setId(Long id) {
@@ -35,8 +34,8 @@ public class Utente {
         this.password = password;
     }
 
-    public void setTipoMovimento(TipoMovimento tipoMovimento) {
-        this.tipoMovimento = tipoMovimento;
+    public void setRuolo(Ruolo ruolo) {
+        this.ruolo = ruolo;
     }
 
     public Long getId() {
@@ -51,7 +50,7 @@ public class Utente {
         return password;
     }
 
-    public TipoMovimento getTipoMovimento() {
-        return tipoMovimento;
+    public Ruolo getRuolo() {
+        return ruolo;
     }
 }

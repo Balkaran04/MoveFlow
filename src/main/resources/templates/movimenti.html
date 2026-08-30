@@ -29,9 +29,9 @@
     <td th:text="${m.ubicazioneDestinazione}"></td>
     <td th:text="${m.ubicazioneOrigine}"></td>
     <td th:text="${m.materiale.getCodice()}"></td>
-    <td th:text="${m.utente}"></td>
+    <td th:text="${m.utente != null ? m.utente.username : '-' }"></td>
   </tbody>
-  
+
 </table>
 
 </body>

@@ -4,11 +4,13 @@ import it.polimi.moveflow.model.*;
 import it.polimi.moveflow.repository.MaterialeRepository;
 import it.polimi.moveflow.repository.MovimentoRepository;
 import it.polimi.moveflow.repository.UbicazioneRepository;
+import it.polimi.moveflow.repository.UtenteRepository;
 import it.polimi.moveflow.strategy.StrategiaAltaRotazione;
 import it.polimi.moveflow.strategy.StrategiaBassaRotazione;
 import it.polimi.moveflow.strategy.StrategiaMediaRotazione;
 import it.polimi.moveflow.strategy.StrategiaRotazione;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,11 +24,24 @@ public class GestioneMagazzinoService {
     private final UbicazioneRepository ubicazioneRepository;
     private final MaterialeRepository materialeRepository;
     private final MovimentoRepository movimentoRepository;
+    private final UtenteRepository utenteRepository;
 
-    public GestioneMagazzinoService(MaterialeRepository materialeRepository, UbicazioneRepository ubicazioneRepository, MovimentoRepository movimentoRepository) {
+    public GestioneMagazzinoService(MaterialeRepository materialeRepository, UbicazioneRepository ubicazioneRepository,
+                                    MovimentoRepository movimentoRepository, UtenteRepository utenteRepository) {
         this.materialeRepository = materialeRepository;
         this.ubicazioneRepository = ubicazioneRepository;
         this.movimentoRepository = movimentoRepository;
+        this.utenteRepository = utenteRepository;
+    }
+
+    public Utente getUtenteLoggato(){
+        String utente = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+        return utenteRepository.findByUsername(utente)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Utente non trovato!"));
     }
     @Transactional
     public void assegnaMateriale(Long materialeId, Long ubicazioneId)
@@ -71,7 +86,7 @@ public class GestioneMagazzinoService {
         // se supero tutti i controlli assegno il materiale effettivamente
         m1.setUbicazione(u1);
         u1.setStato(StatoUbicazione.OCCUPATA);
-        registraMovimento(m1,TipoMovimento.CARICO,null, u1.getCodice(),null);
+        registraMovimento(m1,TipoMovimento.CARICO,null, u1.getCodice(),getUtenteLoggato());
         materialeRepository.save(m1);
         ubicazioneRepository.save(u1);
 
@@ -160,7 +175,7 @@ public class GestioneMagazzinoService {
 
         m1.setUbicazione(ubicazioneMigliore);
         ubicazioneMigliore.setStato(StatoUbicazione.OCCUPATA);
-        registraMovimento(m1,TipoMovimento.CARICO,null, ubicazioneMigliore.getCodice(),null);
+        registraMovimento(m1,TipoMovimento.CARICO,null, ubicazioneMigliore.getCodice(),getUtenteLoggato());
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(ubicazioneMigliore);
@@ -206,7 +221,7 @@ public class GestioneMagazzinoService {
         vecchiaU.setStato(StatoUbicazione.LIBERA);
         m1.setUbicazione(u1);
         u1.setStato(StatoUbicazione.OCCUPATA);
-        registraMovimento(m1,TipoMovimento.SPOSTAMENTO,vecchiaU.getCodice(), u1.getCodice(),null);
+        registraMovimento(m1,TipoMovimento.SPOSTAMENTO,vecchiaU.getCodice(), u1.getCodice(),getUtenteLoggato());
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(vecchiaU);
@@ -231,7 +246,7 @@ public class GestioneMagazzinoService {
 
         m1.setUbicazione(null);
         u.setStato(StatoUbicazione.LIBERA);
-        registraMovimento(m1,TipoMovimento.SCARICO,u.getCodice(), null,null);
+        registraMovimento(m1,TipoMovimento.SCARICO,u.getCodice(), null,getUtenteLoggato());
 
         materialeRepository.save(m1);
         ubicazioneRepository.save(u);

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Utenti</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Gestione Utenti</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Ruolo</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="u : ${utenti}">
+      <td th:text="${u.id}"></td>
+      <td th:text="${u.username}"></td>
+      <td th:text="${u.ruolo}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <a href="/utenti/crea">
+    <button type="button">Nuovo Utente</button>
+  </a>
+  <a href="/">Torna alla Home</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuovo Utente</title>
+</head>
+<body>
+<form th:action="@{/utenti/crea}" method="post">
+
+  <p>
+    <label>Username:</label><br>
+    <input type="text" name="username" required>
+  </p>
+
+  <p>
+    <label>Password:</label><br>
+    <input type="password" name="password" required>
+  </p>
+
+  <p>
+    <label>Ruolo:</label><br>
+    <select name="ruolo" required>
+      <option value="ADMIN">ADMIN</option>
+      <option value="OPERATORE">OPERATORE</option>
+      <option value="RESPONSABILE">RESPONSABILE</option>
+    </select>
+  </p>
+
+  <button type="submit">Crea Utente</button>
+
+</form>
+</body>
+</html>
