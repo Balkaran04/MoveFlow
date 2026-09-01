@@ -35,8 +35,6 @@ public class GestioneMagazzinoController{
         List<Ubicazione> u1 = ubicazioneService.trovaTutte();
 
         model.addAttribute("materiali",m1);
-
-        model.addAttribute("materiali",m1);
         model.addAttribute("ubicazioni",u1);
 
         return "magazzino-assegnazione";

@@ -116,6 +116,20 @@ public class UbicazioneServiceTest {
         assertEquals(StatoUbicazione.BLOCCATA, u.getStato());
     }
 
+    @Test
+    void sbloccaUbicazione() {
+        Ubicazione u = new Ubicazione();
+        u.setStato(StatoUbicazione.BLOCCATA);
+
+        when(ubicazioneRepository.findById(1L))
+                .thenReturn(Optional.of(u));
+
+        ubicazioneService.sbloccaUbicazione(1L);
+
+        assertEquals(StatoUbicazione.LIBERA, u.getStato());
+    }
+
+
 
     @Test
     void trovaPerStato() {

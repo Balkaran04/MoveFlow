@@ -115,7 +115,10 @@ public class MaterialeServiceTest {
 
     @Test
     void eliminaPerId() {
+        Materiale m = new Materiale();
 
+        when(materialeRepository.findById(1L))
+                .thenReturn(Optional.of(m));
         materialeService.eliminaPerId(1L);
 
         verify(materialeRepository).deleteById(1L);

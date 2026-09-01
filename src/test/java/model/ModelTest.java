@@ -114,4 +114,20 @@ public class ModelTest {
         assertEquals("U02", movimento.getUbicazioneDestinazione());
         assertEquals(data, movimento.getDataOra());
     }
+
+    @Test
+    void costruttibase(){
+        Materiale materiale = new Materiale(1L, "MAT01", "Scatola", 10, 20, 30, 40, ClasseRotazione.ALTA
+        );
+
+        Ubicazione ubicazione = new Ubicazione(1L, "U01", 1, 2, 3, 500, 100, 100, 100, StatoUbicazione.LIBERA
+        );
+
+        Utente utente = new Utente("operatore", "password", Ruolo.OPERATORE
+        );
+
+        assertEquals("MAT01", materiale.getCodice());
+        assertEquals("U01", ubicazione.getCodice());
+        assertEquals("operatore", utente.getUsername());
+    }
 }
