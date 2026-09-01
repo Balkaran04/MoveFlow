@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Ubicazioni</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+<h1>Ubicazioni</h1>
 
+<a style="padding-left: 10px" class="btn" href="/ubicazioni/inserimento">
+  Nuova ubicazione
+</a>
 <p th:each="m : ${ubicazioni}"></p>
 
 <table>
@@ -36,17 +42,18 @@
     <td th:text="${m.posizione}"></td>
     <td th:text="${m.profonditaMassima}"></td>
     <td th:text="${m.stato}"></td>
-    <td>
-      <form method="POST" th:action="@{/ubicazioni/elimina/{id}(id=${m.id})}">
+    <td class="actions">
+      <form class="btn" method="POST" th:action="@{/ubicazioni/elimina/{id}(id=${m.id})}">
         <button type="submit">Elimina</button>
       </form>
-    </td>
-    <td>
-      <a th:href="@{/ubicazioni/modifica/{id}(id=${m.id})}">Modifica</a>
-    </td>
-    <td>
-      <form method="POST" th:action="@{/ubicazioni/blocca/{id}(id=${m.id})}">
+
+      <a class="btn" th:href="@{/ubicazioni/modifica/{id}(id=${m.id})}">Modifica</a>
+
+      <form class="btn" method="POST" th:if="${m.getStato().name() == 'LIBERA'}" th:action="@{/ubicazioni/blocca/{id}(id=${m.id})}">
         <button type="submit">Blocca</button>
+      </form>
+      <form class="btn" method="POST" th:if="${m.getStato().name() == 'BLOCCATA'}" th:action="@{/ubicazioni/sblocca/{id}(id=${m.id})}">
+        <button type="submit">Sblocca</button>
       </form>
     </td>
   </tbody>

@@ -1,101 +1,155 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f4f6f8;
+    background-color: #f4f4f4;
     color: #222;
+}
+nav {
+    background-color: #1f3c5c;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 25px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav .logout-form {
+    margin-left: auto;
+    padding: 0;
+    background: none;
+}
+
+nav .logout-form button {
+    margin: 0;
 }
 
 .container {
     width: 90%;
-    max-width: 1000px;
-    margin: 40px auto;
+    max-width: 1100px;
+    margin: 30px auto;
 }
 
 h1 {
-    color: #1f3c5b;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
-h2, h3 {
-    color: #2f4f6f;
-}
-
-p {
-    color: #555;
-}
-
-.menu {
-    background-color: white;
-    padding: 25px;
+h2 {
     margin-top: 25px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
 }
 
-.menu a {
-    display: block;
-    padding: 10px 12px;
-    margin: 6px 0;
-    color: #1f5f99;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.menu a:hover {
-    background-color: #eef4f8;
+h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     background-color: white;
+    margin-top: 15px;
 }
 
-th {
-    background-color: #1f3c5b;
-    color: white;
-}
-
-th, td {
+th,
+td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
-tr:nth-child(even) {
-    background-color: #f8f9fa;
+th {
+    background-color: #eeeeee;
 }
 
 form {
-    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 5px;
 }
 
 input,
 select {
+    width: 100%;
     padding: 8px;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
 }
 
-button {
-    background-color: #1f3c5b;
-    color: white;
+button,
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-top: 10px;
+    margin-right: 5px;
     border: none;
-    padding: 9px 16px;
-    border-radius: 5px;
+    background-color: #1f3c5c;
+    color: white;
+    text-decoration: none;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #162d45;
+button:hover,
+.btn:hover {
+    background-color: #162c44;
 }
 
-a {
-    color: #1f5f99;
+.btn-danger {
+    background-color: #b52b2b;
 }
 
-.logout {
-    margin-top: 25px;
+.btn-danger:hover {
+    background-color: #8f2020;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+
+.error {
+    color: #b52b2b;
+}
+
+.success {
+    color: #247a36;
+}
+
+.actions {
+    margin-top: 15px;
+}
+
+.actions form {
+    display: inline;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.dashboard-grid .card {
+    width: 220px;
+}
+
+.dashboard-grid .card p {
+    font-size: 24px;
+    font-weight: bold;
 }

@@ -69,6 +69,7 @@ public class UbicazioneServiceTest {
     @Test
     void modificaUbicazione() {
         Ubicazione vecchia = new Ubicazione();
+        vecchia.setStato(StatoUbicazione.LIBERA);
 
         Ubicazione nuova = new Ubicazione();
         nuova.setCodice("U10");

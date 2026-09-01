@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Spostamento Materiale</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <h2>Spostamento Materiale</h2>
 <form method="POST"  th:action="@{/magazzino/spostamento}">
 

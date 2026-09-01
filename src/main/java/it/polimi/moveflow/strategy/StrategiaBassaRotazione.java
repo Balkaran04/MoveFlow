@@ -4,7 +4,7 @@ import it.polimi.moveflow.model.Ubicazione;
 
 
 public class StrategiaBassaRotazione implements StrategiaRotazione {
-
+    // Per alta rotazione cerco se trovo ubicazione piu Lontana
     @Override
     public boolean preferisci(Ubicazione candidata, Ubicazione attuale){
         if(candidata.getCampata() > attuale.getCampata()){

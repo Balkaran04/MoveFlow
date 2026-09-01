@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista Movimenti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-
+<div th:replace="~{navbar :: navbar}"></div>
 <p th:each="m : ${movimenti}"></p>
 
 <table>

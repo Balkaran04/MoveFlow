@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import java.util.Optional;
 
+/***
+ * Controller per la gestione Ubicazione
+ * gestisce il insert, update e delete e blocca ubicazione
+ */
 @Controller
 public class UbicazioneController {
 
@@ -74,6 +78,12 @@ public class UbicazioneController {
     @PostMapping("/ubicazioni/blocca/{id}")
     public String bloccaUbicazione(@PathVariable Long id){
         ubicazioneService.bloccaUbicazione(id);
+        return "redirect:/ubicazioni";
+    }
+
+    @PostMapping("/ubicazioni/sblocca/{id}")
+    public String sbloccaUbicazione(@PathVariable Long id){
+        ubicazioneService.sbloccaUbicazione(id);
         return "redirect:/ubicazioni";
     }
 

@@ -8,6 +8,7 @@ import com.google.zxing.oned.Code128Writer;
 import it.polimi.moveflow.etichetta.Etichetta;
 import it.polimi.moveflow.etichetta.GeneratoreEtichetta;
 import it.polimi.moveflow.etichetta.GeneratoreEtichettaStandard;
+import it.polimi.moveflow.expection.MaterialeNonTrovatoException;
 import it.polimi.moveflow.model.Materiale;
 import it.polimi.moveflow.repository.MaterialeRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -22,6 +23,10 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+
+/**
+ * Service per Etichetta
+ */
 @Service
 public class EtichettaService {
 
@@ -30,12 +35,13 @@ public class EtichettaService {
     public EtichettaService(MaterialeRepository materialeRepository) {
         this.materialeRepository = materialeRepository;
     }
-
+   /* Funzione che prende id in ingresso e mi genera il testo per l'etichetta
+   * */
     public String generaEtichetta(Long idMateriale){
         Optional<Materiale> m = materialeRepository.findById(idMateriale);
 
         if(m.isEmpty()){
-            throw new IllegalArgumentException("Non esiste il Materiale");
+            throw new MaterialeNonTrovatoException("Non esiste il Materiale");
 
         }
         Materiale m1 = m.get();
@@ -48,13 +54,13 @@ public class EtichettaService {
     }
 
 
-
+   /*Funzione che genera pdf chiamando il creaPdf*/
     public byte[] generaPdfEtichetta(Long idMateriale) throws IOException {
 
         Optional<Materiale> m = materialeRepository.findById(idMateriale);
 
         if(m.isEmpty()){
-            throw new IllegalArgumentException("Non esiste il Materiale");
+            throw new MaterialeNonTrovatoException("Non esiste il Materiale");
 
         }
         Materiale m1 = m.get();
@@ -65,7 +71,9 @@ public class EtichettaService {
         return creaPdf(testo, m1.getId());
     }
 
-
+    /*Funzione crea il pdf dell'etichetta
+    * Genero il barcode con ZXinge poi inserisco il testo
+    * e il barcode nel pdf*/
     private byte[] creaPdf(String testo, Long idMateriale) throws IOException{
         String barcode = "MAT|" + idMateriale;
         Code128Writer writer = new Code128Writer();
@@ -87,6 +95,7 @@ public class EtichettaService {
         );
 
         PDDocument documento = new PDDocument();
+        // conversione da millimentri a punti PDF
         float larghezza = 100 * 72f / 25.4f;
         float altezza = 60 * 72f / 25.4f;
 

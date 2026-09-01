@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+/**
+ * Controller MVC controller per la gestione delle richieste legate al magazzino:
+ * assegnazione, spostamento e scarico.
+ *
+ */
 @Controller
 public class GestioneMagazzinoController{
     private final GestioneMagazzinoService gestioneMagazzinoService;
@@ -27,8 +32,12 @@ public class GestioneMagazzinoController{
     @GetMapping("/magazzino/assegnazioneauto")
     public String assegnaAutoMateriale(Model model){
         List<Materiale> m1 = materialeService.trovaTutti();
+        List<Ubicazione> u1 = ubicazioneService.trovaTutte();
 
         model.addAttribute("materiali",m1);
+
+        model.addAttribute("materiali",m1);
+        model.addAttribute("ubicazioni",u1);
 
         return "magazzino-assegnazione";
     }

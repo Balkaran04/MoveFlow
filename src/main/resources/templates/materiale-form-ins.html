@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Inserimento Materiale</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <h1>Inserimento Materiale</h1>
 
 <form method="POST" th:object="${materiale}" th:action="@{/materiali/inserimento}">

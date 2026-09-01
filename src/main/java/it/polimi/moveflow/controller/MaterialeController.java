@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller Materiale, gestisce tutte le richieste per il materiale:
+ * insert,update e modifica materiali.
+ */
 @Controller
 public class MaterialeController {
 

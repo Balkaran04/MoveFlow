@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+/*
+* Service usato da Spring Security per i dati del utente loggato*/
 @Service
 public class UtenteDetailsService implements UserDetailsService {
 

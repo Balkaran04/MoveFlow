@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller per API REST delle Ubicazioni,
+ * se si fa richiesta API torna JSON di lista dati
+ */
 @RestController
 @RequestMapping("/api/ubicazioni")
 public class UbicazioneRestController {

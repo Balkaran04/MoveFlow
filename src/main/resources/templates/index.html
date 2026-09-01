@@ -10,32 +10,39 @@
 
 <body>
 
+<div th:replace="~{navbar :: navbar}"></div>
+
 <div class="container">
 
     <h1>MoveFlow</h1>
     <p>Mini-WMS per la gestione del magazzino.</p>
 
-    <div class="menu">
+    <div class="home-grid">
 
-        <h3>Gestione</h3>
+        <div class="card">
+            <h2>Gestione</h2>
+            <p>Gestione dei dati principali del magazzino.</p>
 
-        <a href="/materiali">Materiali</a>
-        <a href="/ubicazioni">Ubicazioni</a>
-        <a href="/utenti">Utenti</a>
+            <a class="btn" href="/materiali">Materiali</a>
+            <a class="btn" href="/ubicazioni">Ubicazioni</a>
+            <a class="btn" href="/utenti">Utenti</a>
+        </div>
 
-        <h3>Operazioni</h3>
+        <div class="card">
+            <h2>Operazioni</h2>
+            <p>Operazioni di movimentazione dei materiali.</p>
 
-        <a href="/magazzino/assegnazione">Assegna materiale</a>
-        <a href="/magazzino/spostamento">Sposta materiale</a>
+            <a class="btn" href="/magazzino/assegnazione">Assegna materiale</a>
+            <a class="btn" href="/magazzino/spostamento">Sposta materiale</a>
+        </div>
 
-        <h3>Controllo</h3>
+        <div class="card">
+            <h2>Controllo</h2>
+            <p>Controllo dello stato e dello storico del magazzino.</p>
 
-        <a href="/dashboard">Dashboard</a>
-        <a href="/movimenti">Storico movimenti</a>
-
-        <form class="logout" th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
-        </form>
+            <a class="btn" href="/dashboard">Dashboard</a>
+            <a class="btn" href="/movimenti">Storico movimenti</a>
+        </div>
 
     </div>
 

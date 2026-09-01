@@ -1,13 +1,17 @@
 package it.polimi.moveflow.service;
 
+import it.polimi.moveflow.expection.MaterialeNonTrovatoException;
 import it.polimi.moveflow.model.Materiale;
 import it.polimi.moveflow.repository.MaterialeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.IllformedLocaleException;
 import java.util.List;
 import java.util.Optional;
 
-
+/*
+* Funzioni Service per la gestione del materiale
+* semplici funzioni per trovare,modificare, eliminare e salvare*/
 @Service
 public class MaterialeService {
 
@@ -31,6 +35,15 @@ public class MaterialeService {
     }
 
     public void eliminaPerId(Long id){
+        Optional<Materiale> m1 = materialeRepository.findById(id);
+
+        if(m1.isEmpty()){
+            throw new MaterialeNonTrovatoException("Materiale non esite");
+        }
+        Materiale m = m1.get();
+        if(m.getUbicazione() != null){
+            throw new IllegalArgumentException("Materiale ubicato! Liberare prima!");
+        }
         materialeRepository.deleteById(id);
 
     }

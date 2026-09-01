@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Assegna Materiale a Ubicazione</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <h2>Assegnazione Manuale</h2>
 <form method="POST"  th:action="@{/magazzino/assegnazione}">
 

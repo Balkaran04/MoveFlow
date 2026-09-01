@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 
-
+/**
+ * Controller legato alla generazione etichetta
+ */
 @Controller
 public class EtichettaController {
 

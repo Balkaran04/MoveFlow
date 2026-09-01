@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<nav th:fragment="navbar">
+  <a href="/">MoveFlow</a>
+  <a href="/materiali">Materiali</a>
+  <a href="/ubicazioni">Ubicazioni</a>
+  <a href="/magazzino/assegnazioneauto">Assegnazione</a>
+  <a href="/magazzino/spostamento">Spostamento</a>
+  <a href="/dashboard">Dashboard</a>
+  <a href="/movimenti">Movimenti</a>
+  <a href="/utenti">Utenti</a>
+
+  <form th:action="@{/logout}" method="post" class="logout-form">
+    <button type="submit">Logout</button>
+  </form>
+</nav>
+
+</body>
+</html>

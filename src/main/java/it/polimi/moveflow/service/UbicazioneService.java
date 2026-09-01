@@ -1,5 +1,7 @@
 package it.polimi.moveflow.service;
 
+import it.polimi.moveflow.expection.OperazioneMagNonTrovata;
+import it.polimi.moveflow.expection.UbicazioneNonTrovataException;
 import it.polimi.moveflow.model.StatoUbicazione;
 import it.polimi.moveflow.model.Ubicazione;
 import it.polimi.moveflow.repository.UbicazioneRepository;
@@ -11,7 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-
+/*
+* Service con funzioni per Ubicazioni:
+* ricerca, salva, modifica, elimina e blocca*/
 @Service
 public class UbicazioneService {
 
@@ -35,8 +39,11 @@ public class UbicazioneService {
 
     public void modificaUbicazione(Long id, Ubicazione u) {
         Optional<Ubicazione> u1 = ubicazioneRepository.findById(id);
-        if (u1.isPresent()) {
+        if (u1.isPresent() ) {
             Ubicazione u2 = u1.get();
+            if(u2.getStato() != StatoUbicazione.LIBERA){
+                throw new OperazioneMagNonTrovata("L'Ubicazione può essere modificata solo se libera!");
+            }
             u2.setAltezzaMassima(u.getAltezzaMassima());
             u2.setCampata(u.getCampata());
             u2.setCodice(u.getCodice());
@@ -44,10 +51,11 @@ public class UbicazioneService {
             u2.setLivello(u.getLivello());
             u2.setPesoMassimo(u.getPesoMassimo());
             u2.setProfonditaMassima(u.getProfonditaMassima());
-            u2.setStato(u.getStato());
             u2.setPosizione(u.getPosizione());
             ubicazioneRepository.save(u2);
 
+        }else{
+            throw new UbicazioneNonTrovataException("Ubicazione non trovata!");
         }
 
     }
@@ -62,6 +70,17 @@ public class UbicazioneService {
         if(u1.isPresent()) {
             Ubicazione u2 = u1.get();
             u2.setStato(StatoUbicazione.BLOCCATA);
+            ubicazioneRepository.save(u2);
+        }
+
+    }
+
+    public void sbloccaUbicazione (Long id)
+    {
+        Optional<Ubicazione> u1 = ubicazioneRepository.findById(id);
+        if(u1.isPresent()) {
+            Ubicazione u2 = u1.get();
+            u2.setStato(StatoUbicazione.LIBERA);
             ubicazioneRepository.save(u2);
         }
 

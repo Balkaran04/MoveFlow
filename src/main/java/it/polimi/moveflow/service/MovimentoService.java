@@ -5,6 +5,7 @@ import it.polimi.moveflow.repository.MovimentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+/*Service per le funzioni movimento */
 @Service
 public class MovimentoService {
     private final MovimentoRepository movimentoRepository;

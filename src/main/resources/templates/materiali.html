@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Materiale</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<h1 style="padding-left: 10px">Materiali</h1>
+
+<a class="btn" href="/materiali/inserimento">
+    Nuovo materiale
+</a>
 
 <p th:each="m : ${materiali}"></p>
 
@@ -14,11 +22,13 @@
           <td>ID</td>
           <td>Codice</td>
           <td>Descrizione</td>
+          <td>Quantità</td>
           <td>Peso</td>
           <td>Altezza</td>
           <td>Larghezza</td>
           <td>Profondità</td>
           <td>Classe Rotazione</td>
+          <td>Ubicazione</td>
           <td>Azioni</td>
       </tr>
     </thead>
@@ -27,27 +37,29 @@
         <td th:text="${m.id}"></td>
         <td th:text="${m.codice}"></td>
         <td th:text="${m.descrizione}"></td>
+        <td th:text="${m.quantita}"></td>
         <td th:text="${m.peso}"></td>
         <td th:text="${m.altezza}"></td>
         <td th:text="${m.larghezza}"></td>
         <td th:text="${m.profondita}"></td>
         <td th:text="${m.classeRotazione}"></td>
-        <td>
-            <form method="POST" th:action="@{/materiali/elimina/{id}(id=${m.id})}">
+        <td th:text="${m.ubicazione != null ? m.ubicazione.getCodice() : 'Non assegnato'}"></td>
+
+        <td class="actions">
+            <form  class="btn" method="POST" th:action="@{/materiali/elimina/{id}(id=${m.id})}">
                 <button type="submit">Elimina</button>
             </form>
-        </td>
-        <td>
-              <form method="POST" th:action="@{/magazzino/libera/{id}(id=${m.id})}">
+
+              <form class="btn"method="POST" th:if="${m.getUbicazione() != null}" th:action="@{/magazzino/libera/{id}(id=${m.id})}">
                   <button type="submit">Libera Materiale</button>
               </form>
-        </td>
 
-        <td>
-            <a th:href="@{/materiali/modifica/{id}(id=${m.id})}">Modifica</a>
-        </td>
-        <td>
-              <a th:href="@{/etichette/{id}(id=${m.id})}">Etichetta</a>
+            <a class="btn" th:href="@{/materiali/modifica/{id}(id=${m.id})}">Modifica</a>
+
+
+            <a class="btn" th:href="@{/etichette/{id}(id=${m.id})}">Etichetta Html</a>
+
+            <a class="btn" th:href="@{/etichette/{id}/pdf(id=${m.id})}">Etichetta PDF</a>
         </td>
 
     </tbody>

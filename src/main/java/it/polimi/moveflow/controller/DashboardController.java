@@ -5,14 +5,15 @@ import org.springframework.boot.jdbc.autoconfigure.ApplicationDataSourceScriptDa
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+/**
+ * Controller per le richieste legate alla dashboard
+ */
 @Controller
 public class DashboardController {
     private final DashboardService dashboardService;
-    private final ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer;
 
-    public DashboardController(DashboardService dashboardService, ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer){
+    public DashboardController(DashboardService dashboardService){
         this.dashboardService = dashboardService;
-        this.dataSourceScriptDatabaseInitializer = dataSourceScriptDatabaseInitializer;
     }
 
     @GetMapping("/dashboard")

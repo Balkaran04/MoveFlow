@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Inserimento Ubicazione</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <h1>Inserimento Ubicazione</h1>
 
 <form method="POST" th:object="${ubicazioni}" th:action="@{/ubicazioni/inserimento}">
@@ -45,7 +47,6 @@
   <label>Stato:</label>
   <select  th:field="*{stato}" >
     <option value="LIBERA">Libera</option>
-    <option value="OCCUPATA">Occupata</option>
     <option value="BLOCCATA">Bloccata</option>
   </select>
 

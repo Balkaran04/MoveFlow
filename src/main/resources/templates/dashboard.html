@@ -4,30 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="dashboard-grid">
 
-<h1>Dashboard Magazzino</h1>
+    <div class="card">
+        <h3>Ubicazioni totali</h3>
+        <p th:text="${totali}"></p>
+    </div>
 
-<p>Ubicazioni totali: <span th:text="${totali}"></span></p>
+    <div class="card">
+        <h3>Ubicazioni libere</h3>
+        <p th:text="${libere}"></p>
+    </div>
 
-<p>Ubicazioni libere: <span th:text="${libere}"></span></p>
+    <div class="card">
+        <h3>Ubicazioni occupate</h3>
+        <p th:text="${occupate}"></p>
+    </div>
 
-<p>Ubicazioni occupate: <span th:text="${occupate}"></span></p>
+    <div class="card">
+        <h3>Ubicazioni bloccate</h3>
+        <p th:text="${bloccate}"></p>
+    </div>
 
-<p>Ubicazioni bloccate: <span th:text="${bloccate}"></span></p>
+    <div class="card">
+        <h3>Quantità in magazzino</h3>
+        <p th:text="${quantita}"></p>
+    </div>
 
-<p>Quantità in magazzino: <span th:text="${quantita}"></span></p>
+    <div class="card">
+        <h3>Occupazione</h3>
+        <p>
+            <span th:text="${percentuale}"></span> %
+        </p>
+    </div>
 
-<p>
-    Percentuale occupazione:
-    <span th:text="${percentuale}"></span> %
-</p>
-
-<br>
-
-<a href="/">Torna alla Home</a>
+</div>
 
 </body>
 </html>

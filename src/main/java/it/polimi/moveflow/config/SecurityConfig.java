@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
-      //  BCryptPasswordEncoder ecnoder = new BCryptPasswordEncoder();
+       //  BCryptPasswordEncoder ecnoder = new BCryptPasswordEncoder();
        // System.out.println(ecnoder.encode("responsabile123"));
 
         return http.build();

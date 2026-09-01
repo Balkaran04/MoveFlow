@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuovo Utente</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 <form th:action="@{/utenti/crea}" method="post">
 
   <p>

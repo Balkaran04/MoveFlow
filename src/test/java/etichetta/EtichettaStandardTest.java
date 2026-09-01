@@ -22,6 +22,7 @@ public class EtichettaStandardTest {
 
         Ubicazione u = new Ubicazione();
         u.setStato(StatoUbicazione.OCCUPATA);
+        u.setCodice("U01");
 
         m.setUbicazione(u);
 
@@ -29,7 +30,7 @@ public class EtichettaStandardTest {
 
         String testo = etichetta.generaTesto();
 
-        assertTrue(testo.contains(u.toString()));
+        assertTrue(testo.contains(u.getCodice()));
 
     }
 

@@ -13,7 +13,7 @@ public class EtichettaStandard implements Etichetta{
         String ubicazione = "Non assegnata";
 
         if(materiale.getUbicazione() != null){
-            ubicazione= materiale.getUbicazione().toString();
+            ubicazione= materiale.getUbicazione().getCodice();
         }
 
         return"Etichetta Materiale\n" +

@@ -5,6 +5,10 @@ import it.polimi.moveflow.repository.MaterialeRepository;
 import it.polimi.moveflow.repository.UbicazioneRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service per dashboard
+ * funzioni per calcolare i dati della dashboard
+ */
 @Service
 public class DashboardService {
 
@@ -29,7 +33,7 @@ public class DashboardService {
     public long getUbicazioniTotali(){
         return ubicazioneRepository.count();
     }
-
+    //funzione per il calcolo percentuale
     public double getPercentualeOccupato(){
       long ubicOccupate = ubicazioneRepository.countByStato(StatoUbicazione.OCCUPATA);
       long ubicLibere   =ubicazioneRepository.countByStato(StatoUbicazione.LIBERA);
@@ -39,7 +43,7 @@ public class DashboardService {
       if(disponibili == 0 ){
           return 0;
       }
-      return ((double) ubicOccupate / disponibili)*100;
+      return Math.round(((double) ubicOccupate / disponibili)*100);
 
     }
     

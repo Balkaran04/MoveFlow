@@ -8,10 +8,15 @@
 </head>
 
 <body>
+<div th:replace="~{navbar :: navbar}"></div>
 
 <div class="container">
 
   <h1>Gestione Utenti</h1>
+
+  <a href="/utenti/crea">
+    <button type="button">Nuovo Utente</button>
+  </a>
 
   <table>
     <thead>
@@ -19,6 +24,7 @@
       <th>ID</th>
       <th>Username</th>
       <th>Ruolo</th>
+      <th>Azioni</th>
     </tr>
     </thead>
 
@@ -27,15 +33,21 @@
       <td th:text="${u.id}"></td>
       <td th:text="${u.username}"></td>
       <td th:text="${u.ruolo}"></td>
+      <td>
+        <form method="POST"
+              th:action="@{/utenti/elimina/{id}(id=${u.id})}">
+          <button type="submit" class="btn-danger">
+            Elimina
+          </button>
+        </form>
+      </a>
+      </td>
     </tr>
     </tbody>
   </table>
 
   <br>
-  <a href="/utenti/crea">
-    <button type="button">Nuovo Utente</button>
-  </a>
-  <a href="/">Torna alla Home</a>
+
 
 </div>
 
