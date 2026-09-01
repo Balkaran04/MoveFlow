@@ -47,6 +47,7 @@ public class MaterialeService {
            m2.setLarghezza(m.getLarghezza());
            m2.setPeso(m.getPeso());
            m2.setProfondita(m.getProfondita());
+           m2.setQuantita(m.getQuantita());
            salvaMateriale(m2);
        }
 
