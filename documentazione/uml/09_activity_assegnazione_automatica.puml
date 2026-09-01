@@ -1,0 +1,54 @@
+@startuml
+skinparam shadowing false
+
+title MoveFlow - Activity: Algoritmo di assegnazione automatica
+
+start
+:Cerca materiale per ID;
+if (Materiale esiste?) then (no)
+  :Errore "Non esiste il materiale";
+  stop
+else (si)
+endif
+
+if (Materiale già ubicato?) then (si)
+  :Errore "Materiale già ubicato";
+  stop
+else (no)
+endif
+
+:Carica ubicazioni LIBERE;
+:Elimina ubicazioni incompatibili\nper peso e dimensioni;
+
+if (Lista vuota?) then (si)
+  :Errore "Nessuna ubicazione compatibile";
+  stop
+else (no)
+endif
+
+:Calcola volume materiale;
+:Seleziona Strategy in base a\nClasseRotazione;
+:sprecoMinimo = infinito;
+
+while (Altre ubicazioni?) is (si)
+  :Calcola volume ubicazione;
+  :spreco = volumeUbicazione - volumeMateriale;
+  if (spreco < sprecoMinimo?) then (si)
+    :Aggiorna ubicazione migliore;
+    :Aggiorna spreco minimo;
+  else (no)
+    if (spreco == sprecoMinimo?) then (si)
+      :Applica Strategy come tie-breaker;
+      if (Candidata preferita?) then (si)
+        :Aggiorna ubicazione migliore;
+      endif
+    endif
+  endif
+endwhile (no)
+
+:Assegna materiale all'ubicazione;
+:Imposta ubicazione OCCUPATA;
+:Registra movimento CARICO;
+:Salva materiale e ubicazione;
+stop
+@enduml

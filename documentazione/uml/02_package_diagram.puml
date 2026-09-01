@@ -1,0 +1,76 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title MoveFlow - Package Diagram
+
+package "controller" as controller {
+  class MaterialeController
+  class UbicazioneController
+  class GestioneMagazzinoController
+  class EtichettaController
+  class MovimentoController
+  class DashboardController
+  class UtenteController
+  class HomeController
+  class MaterialeRestController
+  class UbicazioneRestController
+}
+
+package "service" as service {
+  class MaterialeService
+  class UbicazioneService
+  class GestioneMagazzinoService
+  class EtichettaService
+  class MovimentoService
+  class DashboardService
+  class UtenteService
+  class UtenteDetailsService
+}
+
+package "repository" as repository {
+  interface MaterialeRepository
+  interface UbicazioneRepository
+  interface MovimentoRepository
+  interface UtenteRepository
+}
+
+package "model" as model {
+  class Materiale
+  class Ubicazione
+  class Movimento
+  class Utente
+  enum ClasseRotazione
+  enum StatoUbicazione
+  enum TipoMovimento
+  enum Ruolo
+}
+
+package "strategy" as strategy {
+  interface StrategiaRotazione
+  class StrategiaAltaRotazione
+  class StrategiaMediaRotazione
+  class StrategiaBassaRotazione
+}
+
+package "etichetta" as etichetta {
+  interface Etichetta
+  class EtichettaStandard
+  abstract class GeneratoreEtichetta
+  class GeneratoreEtichettaStandard
+}
+
+package "config" as config {
+  class SecurityConfig
+}
+
+controller ..> service
+controller ..> model
+service ..> repository
+service ..> model
+service ..> strategy : selezione ubicazione
+service ..> etichetta : generazione etichette
+repository ..> model
+config ..> service : autenticazione utenti
+@enduml

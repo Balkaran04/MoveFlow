@@ -1,0 +1,26 @@
+@startuml
+skinparam shadowing false
+
+title MoveFlow - Autenticazione e autorizzazione per ruoli
+
+actor Utente
+boundary "Spring Security Login" as Login
+control SecurityConfig
+control UtenteDetailsService
+entity UtenteRepository
+entity Utente
+
+Utente -> Login : username + password
+Login -> UtenteDetailsService : loadUserByUsername(username)
+UtenteDetailsService -> UtenteRepository : findByUsername(username)
+UtenteRepository --> UtenteDetailsService : Utente
+UtenteDetailsService --> Login : UserDetails + ROLE
+Login -> SecurityConfig : verifica autorizzazione URL
+
+note right of SecurityConfig
+ADMIN: ubicazioni, utenti, operazioni,
+      dashboard e movimenti
+OPERATORE: materiali, magazzino, etichette
+RESPONSABILE: dashboard e movimenti
+end note
+@enduml

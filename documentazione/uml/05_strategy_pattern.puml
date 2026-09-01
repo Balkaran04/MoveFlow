@@ -1,0 +1,71 @@
+@startuml
+
+title MoveFlow - Strategy Pattern
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class GestioneMagazzinoService {
+    +assegnaAutomaticamente(materialeId: Long): void
+}
+
+interface StrategiaRotazione {
+    +preferisci(candidata: Ubicazione, attuale: Ubicazione): boolean
+}
+
+class StrategiaAltaRotazione {
+    +preferisci(candidata: Ubicazione, attuale: Ubicazione): boolean
+}
+
+class StrategiaMediaRotazione {
+    +preferisci(candidata: Ubicazione, attuale: Ubicazione): boolean
+}
+
+class StrategiaBassaRotazione {
+    +preferisci(candidata: Ubicazione, attuale: Ubicazione): boolean
+}
+
+class Materiale {
+    -classeRotazione: ClasseRotazione
+}
+
+class Ubicazione {
+    -campata: int
+    -livello: int
+    -posizione: int
+}
+
+enum ClasseRotazione {
+    ALTA
+    MEDIA
+    BASSA
+}
+
+StrategiaAltaRotazione ..|> StrategiaRotazione
+StrategiaMediaRotazione ..|> StrategiaRotazione
+StrategiaBassaRotazione ..|> StrategiaRotazione
+
+GestioneMagazzinoService ..> StrategiaRotazione : utilizza
+
+GestioneMagazzinoService ..> StrategiaAltaRotazione : crea
+GestioneMagazzinoService ..> StrategiaMediaRotazione : crea
+GestioneMagazzinoService ..> StrategiaBassaRotazione : crea
+
+GestioneMagazzinoService --> Materiale
+
+Materiale --> ClasseRotazione
+
+StrategiaRotazione ..> Ubicazione
+
+note right of GestioneMagazzinoService
+La strategia viene scelta in base
+alla classe di rotazione del materiale.
+
+Il best-fit sul volume rimane
+il criterio principale.
+
+La Strategy viene utilizzata
+solo in caso di parità di spreco.
+end note
+
+@enduml

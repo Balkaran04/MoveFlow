@@ -1,0 +1,57 @@
+@startuml
+
+title MoveFlow - Diagramma dei casi d'uso
+
+left to right direction
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Amministratore" as Admin
+actor "Operatore di magazzino" as Operatore
+actor "Responsabile di magazzino" as Responsabile
+
+rectangle MoveFlow {
+
+    usecase "Autenticarsi" as Login
+
+    rectangle "Amministrazione" {
+        usecase "Gestire utenti\ne ruoli" as Utenti
+        usecase "Gestire ubicazioni" as Ubicazioni
+    }
+
+    rectangle "Operazioni di magazzino" {
+        usecase "Gestire materiali" as Materiali
+        usecase "Assegnare materiale\nmanualmente" as Manuale
+        usecase "Assegnare materiale\nautomaticamente" as Automatica
+        usecase "Spostare materiale" as Sposta
+        usecase "Scaricare materiale" as Scarica
+        usecase "Generare etichetta" as Etichetta
+    }
+
+    rectangle "Controllo" {
+        usecase "Visualizzare dashboard" as Dashboard
+        usecase "Consultare storico\nmovimenti" as Storico
+    }
+}
+
+Operatore --> Login
+Operatore --> Materiali
+Operatore --> Manuale
+Operatore --> Automatica
+Operatore --> Sposta
+Operatore --> Scarica
+Operatore --> Etichetta
+
+Responsabile --> Login
+Responsabile --> Dashboard
+Responsabile --> Storico
+
+Admin --> Login
+Admin --> Utenti
+Admin --> Ubicazioni
+
+Admin --|> Operatore
+Admin --|> Responsabile
+
+@enduml

@@ -1,0 +1,81 @@
+@startuml
+
+title MoveFlow - Sequence: Assegnazione automatica materiale
+
+actor Operatore
+boundary Browser
+control GestioneMagazzinoController
+control GestioneMagazzinoService
+database MaterialeRepository
+database UbicazioneRepository
+control StrategiaRotazione
+database UtenteRepository
+database MovimentoRepository
+
+Operatore -> Browser : seleziona materiale
+
+Browser -> GestioneMagazzinoController : POST /magazzino/assegnazioneauto\nidMateriale
+
+GestioneMagazzinoController -> GestioneMagazzinoService : assegnaAutomaticamente(id)
+
+GestioneMagazzinoService -> MaterialeRepository : findById(id)
+
+MaterialeRepository --> GestioneMagazzinoService : Materiale
+
+
+alt materiale non esistente
+
+    GestioneMagazzinoService --> GestioneMagazzinoController : MaterialeNonTrovatoException
+
+else materiale già ubicato
+
+    GestioneMagazzinoService --> GestioneMagazzinoController : OperazioneMagNonTrovata
+
+else materiale valido
+
+    GestioneMagazzinoService -> UbicazioneRepository : findByStato(LIBERA)
+
+    UbicazioneRepository --> GestioneMagazzinoService : ubicazioni libere
+
+    GestioneMagazzinoService -> GestioneMagazzinoService : filtra peso e dimensioni
+
+
+    alt nessuna ubicazione compatibile
+
+        GestioneMagazzinoService --> GestioneMagazzinoController : OperazioneMagNonTrovata
+
+    else ubicazioni compatibili
+
+        GestioneMagazzinoService -> GestioneMagazzinoService : calcola volume materiale\ncalcola spreco ubicazioni
+
+        GestioneMagazzinoService -> GestioneMagazzinoService : seleziona Strategy in base\na ClasseRotazione
+
+
+        opt parità di spreco
+
+            GestioneMagazzinoService -> StrategiaRotazione : preferisci(candidata, attuale)
+
+            StrategiaRotazione --> GestioneMagazzinoService : true / false
+
+        end
+
+
+        GestioneMagazzinoService -> UtenteRepository : findByUsername(utente loggato)
+
+        UtenteRepository --> GestioneMagazzinoService : Utente
+
+        GestioneMagazzinoService -> MovimentoRepository : save(CARICO)
+
+        GestioneMagazzinoService -> MaterialeRepository : save(materiale)
+
+        GestioneMagazzinoService -> UbicazioneRepository : save(ubicazione OCCUPATA)
+
+        GestioneMagazzinoService --> GestioneMagazzinoController : completato
+
+        GestioneMagazzinoController --> Browser : redirect /materiali
+
+    end
+
+end
+
+@enduml

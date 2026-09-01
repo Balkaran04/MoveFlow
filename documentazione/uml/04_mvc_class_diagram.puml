@@ -1,0 +1,142 @@
+@startuml
+
+title MoveFlow - Architettura MVC
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+package "View - Thymeleaf" {
+
+    class "materiali.html" as MaterialiView
+    class "ubicazioni.html" as UbicazioniView
+    class "magazzino-assegnazione.html" as AssegnazioneView
+    class "magazzino-spostamento.html" as SpostamentoView
+    class "dashboard.html" as DashboardView
+    class "movimenti.html" as MovimentiView
+    class "utenti.html" as UtentiView
+}
+
+package controller {
+
+    class MaterialeController
+    class UbicazioneController
+    class GestioneMagazzinoController
+    class EtichettaController
+    class MovimentoController
+    class DashboardController
+    class UtenteController
+
+    class MaterialeRestController
+    class UbicazioneRestController
+}
+
+package service {
+
+    class MaterialeService {
+        +trovaTutti(): List<Materiale>
+        +trovaPerId(Long): Optional<Materiale>
+        +salvaMateriale(Materiale): Materiale
+        +modificaMateriale(Long, Materiale): void
+        +eliminaPerId(Long): void
+    }
+
+    class UbicazioneService {
+        +trovaTutte(): List<Ubicazione>
+        +trovaPerId(Long): Optional<Ubicazione>
+        +salvaUbicazione(Ubicazione): Ubicazione
+        +modificaUbicazione(Long, Ubicazione): void
+        +eliminaPerId(Long): void
+        +bloccaUbicazione(Long): void
+        +sbloccaUbicazione(Long): void
+    }
+
+    class GestioneMagazzinoService {
+        +assegnaMateriale(Long, Long): void
+        +assegnaAutomaticamente(Long): void
+        +spostaMateriale(Long, Long): void
+        +liberaMateriale(Long): void
+        +registraMovimento(...): void
+    }
+
+    class EtichettaService {
+        +generaEtichetta(Long): String
+        +generaPdfEtichetta(Long): byte[]
+    }
+
+    class MovimentoService {
+        +trovaTutti(): List<Movimento>
+    }
+
+    class DashboardService {
+        +getUbicazioniTotali(): long
+        +getUbicazioniLibere(): long
+        +getUbicazioniOccupate(): long
+        +getUbicazioniBloccate(): long
+        +getPercentualeOccupato(): double
+        +getQuantita(): long
+    }
+
+    class UtenteService {
+        +listaUtenti(): List<Utente>
+        +creaUtente(String, String, Ruolo): void
+        +eliminaUtente(Long): void
+    }
+
+    class UtenteDetailsService
+}
+
+package repository {
+
+    interface MaterialeRepository
+    interface UbicazioneRepository
+    interface MovimentoRepository
+    interface UtenteRepository
+}
+
+' VIEW -> CONTROLLER
+MaterialiView ..> MaterialeController
+UbicazioniView ..> UbicazioneController
+AssegnazioneView ..> GestioneMagazzinoController
+SpostamentoView ..> GestioneMagazzinoController
+DashboardView ..> DashboardController
+MovimentiView ..> MovimentoController
+UtentiView ..> UtenteController
+
+' CONTROLLER -> SERVICE
+MaterialeController --> MaterialeService
+UbicazioneController --> UbicazioneService
+
+GestioneMagazzinoController --> GestioneMagazzinoService
+GestioneMagazzinoController --> MaterialeService
+GestioneMagazzinoController --> UbicazioneService
+
+EtichettaController --> EtichettaService
+MovimentoController --> MovimentoService
+DashboardController --> DashboardService
+UtenteController --> UtenteService
+
+MaterialeRestController --> MaterialeService
+UbicazioneRestController --> UbicazioneService
+
+' SERVICE -> REPOSITORY
+MaterialeService --> MaterialeRepository
+
+UbicazioneService --> UbicazioneRepository
+
+MovimentoService --> MovimentoRepository
+
+UtenteService --> UtenteRepository
+UtenteDetailsService --> UtenteRepository
+
+DashboardService --> MaterialeRepository
+DashboardService --> UbicazioneRepository
+
+GestioneMagazzinoService --> MaterialeRepository
+GestioneMagazzinoService --> UbicazioneRepository
+GestioneMagazzinoService --> MovimentoRepository
+GestioneMagazzinoService --> UtenteRepository
+
+EtichettaService --> MaterialeRepository
+
+@enduml

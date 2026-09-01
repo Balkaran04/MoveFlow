@@ -1,0 +1,37 @@
+@startuml
+skinparam shadowing false
+
+title MoveFlow - Sequence: Generazione etichetta PDF con barcode
+
+actor Operatore
+boundary Browser
+control EtichettaController as Controller
+control EtichettaService as Service
+database MaterialeRepository as Repo
+control GeneratoreEtichettaStandard as Factory
+entity EtichettaStandard as Etichetta
+collections ZXing
+collections PDFBox
+
+Operatore -> Browser : richiede etichetta PDF
+Browser -> Controller : GET /etichette/{id}/pdf
+Controller -> Service : generaPdfEtichetta(id)
+Service -> Repo : findById(id)
+Repo --> Service : Materiale
+
+alt materiale non trovato
+  Service --> Controller : IllegalArgumentException
+else materiale trovato
+  Service -> Factory : creaEtichetta(materiale)
+  Factory --> Service : EtichettaStandard
+  Service -> Etichetta : generaTesto()
+  Etichetta --> Service : testo etichetta
+  Service -> ZXing : encode("MAT|" + id, CODE_128)
+  ZXing --> Service : BitMatrix / PNG barcode
+  Service -> PDFBox : crea documento 100x60 mm
+  Service -> PDFBox : scrive testo + barcode
+  PDFBox --> Service : byte[] PDF
+  Service --> Controller : byte[] PDF
+  Controller --> Browser : 200 OK\napplication/pdf\ninline etichetta.pdf
+end
+@enduml

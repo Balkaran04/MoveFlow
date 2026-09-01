@@ -1,0 +1,85 @@
+@startuml
+
+title MoveFlow - Modello delle classi di dominio
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class Materiale {
+    - id: Long
+    - codice: String
+    - descrizione: String
+    - quantita: int
+    - peso: double
+    - altezza: double
+    - larghezza: double
+    - profondita: double
+    - classeRotazione: ClasseRotazione
+    - ubicazione: Ubicazione
+}
+
+class Ubicazione {
+    - id: Long
+    - codice: String
+    - campata: int
+    - livello: int
+    - posizione: int
+    - pesoMassimo: double
+    - altezzaMassima: double
+    - larghezzaMassima: double
+    - profonditaMassima: double
+    - stato: StatoUbicazione
+}
+
+class Utente {
+    - id: Long
+    - username: String
+    - password: String
+    - ruolo: Ruolo
+}
+
+class Movimento {
+    - id: Long
+    - materiale: Materiale
+    - tipoMovimento: TipoMovimento
+    - ubicazioneOrigine: String
+    - ubicazioneDestinazione: String
+    - dataOra: LocalDateTime
+    - utente: Utente
+}
+
+enum ClasseRotazione {
+    ALTA
+    MEDIA
+    BASSA
+}
+
+enum StatoUbicazione {
+    LIBERA
+    OCCUPATA
+    BLOCCATA
+}
+
+enum Ruolo {
+    ADMIN
+    OPERATORE
+    RESPONSABILE
+}
+
+enum TipoMovimento {
+    CARICO
+    SPOSTAMENTO
+    SCARICO
+}
+
+Materiale "0..1" --> "0..1" Ubicazione : ubicazione
+
+Materiale --> ClasseRotazione
+Ubicazione --> StatoUbicazione
+Utente --> Ruolo
+
+Movimento "0..*" --> "1" Materiale : materiale
+Movimento "0..*" --> "1" Utente : eseguito da
+Movimento --> TipoMovimento
+
+@enduml

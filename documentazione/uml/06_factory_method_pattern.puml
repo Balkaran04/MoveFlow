@@ -1,0 +1,52 @@
+@startuml
+
+title MoveFlow - Pattern Factory Method
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class EtichettaService {
+    +generaEtichetta(idMateriale: Long): String
+    +generaPdfEtichetta(idMateriale: Long): byte[]
+}
+
+abstract class GeneratoreEtichetta {
+    +creaEtichetta(materiale: Materiale): Etichetta
+}
+
+class GeneratoreEtichettaStandard {
+    +creaEtichetta(materiale: Materiale): Etichetta
+}
+
+interface Etichetta {
+    +generaTesto(): String
+}
+
+class EtichettaStandard {
+    -materiale: Materiale
+    +EtichettaStandard(materiale: Materiale)
+    +generaTesto(): String
+}
+
+class Materiale
+
+GeneratoreEtichettaStandard --|> GeneratoreEtichetta
+
+EtichettaStandard ..|> Etichetta
+
+EtichettaService ..> GeneratoreEtichetta : utilizza
+
+GeneratoreEtichettaStandard ..> EtichettaStandard : crea
+
+EtichettaStandard --> Materiale
+
+note right of GeneratoreEtichetta
+Il Factory Method separa
+la creazione dell'etichetta
+dal suo utilizzo.
+
+Il generatore concreto decide
+quale tipo di etichetta creare.
+end note
+
+@enduml

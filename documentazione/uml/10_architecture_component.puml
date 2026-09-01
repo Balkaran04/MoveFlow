@@ -1,0 +1,58 @@
+@startuml
+
+title MoveFlow - Architettura del sistema
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+actor Utente
+
+component "Browser Web" as Browser
+
+package "MoveFlow - Spring Boot" {
+
+    component "Interfaccia Web\nThymeleaf" as View
+
+    component "Controller MVC" as Controller
+
+    component "Service" as Service
+
+    component "Spring Security" as Security
+
+    component "Repository JPA" as Repository
+
+    component "Strategy Pattern" as Strategy
+
+    component "Factory Method\nEtichette" as Factory
+
+    component "PDFBox" as PDFBox
+
+    component "ZXing" as ZXing
+}
+
+database "PostgreSQL\nDocker" as DB
+
+
+Utente --> Browser : utilizza
+
+Browser --> View : HTTP
+
+View --> Controller : richieste
+
+Security ..> Controller : autenticazione\ne autorizzazione
+
+Controller --> Service : chiama
+
+Service --> Repository : accesso ai dati
+
+Repository --> DB : JPA
+
+Service ..> Strategy : assegnazione\nautomatica
+
+Service ..> Factory : generazione\netichetta
+
+Service ..> PDFBox : genera PDF
+
+Service ..> ZXing : genera barcode
+
+@enduml
